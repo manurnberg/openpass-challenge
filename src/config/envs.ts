@@ -4,12 +4,14 @@ import * as joi from 'joi';
 interface EnvVars {
   PORT: number;
   DRAGON_BALL_API_URL: string;
+  DATABASE_URL: string;
 }
 
 const envsSchema = joi
   .object({
     PORT: joi.number().required(),
     DRAGON_BALL_API_URL: joi.string().required(),
+    DATABASE_URL: joi.string().required(),
   })
   .unknown(true);
 
@@ -26,4 +28,5 @@ const envVars: EnvVars = value;
 export const envs = {
   port: envVars.PORT,
   dragonBallApiUrl: envVars.DRAGON_BALL_API_URL,
+  databaseUrl: envVars.DATABASE_URL,
 };
