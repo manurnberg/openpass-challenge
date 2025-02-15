@@ -4,7 +4,7 @@ import { Character } from './character.schema';
 
 export type AffiliationReportDocument = HydratedDocument<AffiliationReport>;
 
-@Schema()
+@Schema({ versionKey: false })
 export class AffiliationReport {
   @Prop({ required: true })
   affiliation: string;

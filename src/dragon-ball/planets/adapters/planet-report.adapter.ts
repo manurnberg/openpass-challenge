@@ -9,15 +9,27 @@ export class PlanetAdapter {
   static toPlanetReportResponse(
     planet: IPlanetResponse,
   ): IPlanetReportResponse {
-    const affiliationMap: Map<string, ICharacter[]> = new Map();
+    const affiliationMap = new Map<string, ICharacter[]>();
 
-    planet.characters.forEach((character) => {
+    planet.characters.forEach((character: ICharacter) => {
+      const { ...cleanCharacterData } = character;
+
       const affiliation = character.affiliation || 'Unknown';
 
       if (!affiliationMap.has(affiliation)) {
         affiliationMap.set(affiliation, []);
       }
-      affiliationMap.get(affiliation)!.push(character);
+
+      const cleanCharacter: ICharacter = {
+        id: cleanCharacterData.id,
+        name: cleanCharacterData.name,
+        ki: cleanCharacterData.ki,
+        race: cleanCharacterData.race,
+        image: cleanCharacterData.image,
+        affiliation: cleanCharacterData.affiliation,
+      };
+
+      affiliationMap.get(affiliation)!.push(cleanCharacter);
     });
 
     const affiliationReport: IAffiliationReport[] = Array.from(

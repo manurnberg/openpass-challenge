@@ -4,7 +4,7 @@ import { AffiliationReport } from './affiliation-report.schema';
 
 export type PlanetDocument = HydratedDocument<Planet>;
 
-@Schema()
+@Schema({ versionKey: false })
 export class Planet {
   @Prop({ required: true })
   id: number;

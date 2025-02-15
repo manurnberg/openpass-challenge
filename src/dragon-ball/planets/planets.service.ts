@@ -10,7 +10,6 @@ import {
 } from './interfaces/planet-adapter.interface';
 import { PlanetAdapter } from './adapters/planet-report.adapter';
 import { PlanetReportResponseDto } from './dto';
-
 @Injectable()
 export class PlanetsService {
   constructor(
@@ -23,7 +22,7 @@ export class PlanetsService {
       await this.planetRepository.findById(Number(id));
 
     if (!planetReport) {
-      try {
+      //try {
         const dragonBallApiUrl = `${envs.dragonBallApiUrl}/planets/${id}`;
 
         const apiRequest = this.httpService.get(dragonBallApiUrl);
@@ -36,15 +35,17 @@ export class PlanetsService {
         const planetResponse: IPlanetResponse = data;
         const planetReport =
           PlanetAdapter.toPlanetReportResponse(planetResponse);
+        const planetReportResponse =
+          await this.planetRepository.create(planetReport);
 
-        return this.planetRepository.create(planetReport);
-      } catch (error) {
-        const message = error.response?.data?.title || 'unexpected error';
-        const status =
-          error.response?.data?.status || HttpStatus.INTERNAL_SERVER_ERROR;
+        return planetReportResponse;
+      // } catch (error) {
+      //   const message = error.response?.data?.title || 'unexpected error';
+      //   const status =
+      //     error.response?.data?.status || HttpStatus.INTERNAL_SERVER_ERROR;
 
-        throw new HttpException(message, status);
-      }
+      //   throw new HttpException(message, status);
+      // }
     }
 
     return planetReport;

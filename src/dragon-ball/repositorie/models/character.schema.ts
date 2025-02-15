@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type CharacterDocument = HydratedDocument<Character>;
 
-@Schema()
+@Schema({ versionKey: false })
 export class Character {
   @Prop({ required: true })
   id: number;
@@ -19,6 +19,9 @@ export class Character {
 
   @Prop({ required: true })
   image: string;
+
+  @Prop({ required: true })
+  affiliation: string;
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);
